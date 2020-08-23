@@ -24,8 +24,10 @@ const userSchema = new mongoose.Schema({
         throw new Error("Email must be a valid email address");
     },
   },
-  // add timestamp to docu,ent
-  time: { type: Date, default: Date.now },
+
+  //// add timestamp to document
+  // time: { type: Date, default: Date.now },
+
   // password
   password: {
     type: String,
@@ -43,6 +45,22 @@ const userSchema = new mongoose.Schema({
     },
   ],
 });
+
+// virtual property.. connecting User _id and Task author
+userSchema.virtual("tasks", {
+  ref: "Task",
+  localField: "_id",
+  foreignField: "author"
+});
+
+// removing password and token from user object
+userSchema.methods.toJSON = function () {
+  const user = this;
+  const userObject = user.toObject();
+  delete userObject.password;
+  delete userObject.tokens;
+  return userObject;
+};
 
 // generating user authentication token
 userSchema.methods.generateAuthToken = async function () {

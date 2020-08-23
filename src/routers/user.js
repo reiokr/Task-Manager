@@ -74,13 +74,14 @@ router.post("/users/logoutall", auth, async (req, res) => {
   } catch (e) {
     res.status(500).send();
   }
-})
+});
 
 //get user data
 router.get("/users/me", auth, async (req, res) => {
   res.send(req.user);
 });
 
+// list all users
 router.get("/users", auth, async (req, res) => {
   try {
     const user = await User.find({});
@@ -90,17 +91,8 @@ router.get("/users", auth, async (req, res) => {
   }
 });
 
-// get user by id
-router.get("/users/:id", async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id);
-    res.send(user);
-  } catch (e) {
-    res.status(500).send(e);
-  }
-});
-// update user by id
-router.patch("/users/:id", async (req, res) => {
+// update user
+router.patch("/users/me", auth, async (req, res) => {
   // check valid properties
   const updates = Object.keys(req.body);
   const allowedUpdates = ["name", "email", "password", "age"];
@@ -111,26 +103,21 @@ router.patch("/users/:id", async (req, res) => {
     return res.status(400).send({ error: "Invalid Updates!" });
   }
   try {
-    const user = await User.findById(req.params.id);
+    const user = req.user;
     updates.forEach((update) => (user[update] = req.body[update]));
     await user.save();
-
-    // const user = await User.findByIdAndUpdate(req.params.id, req.body, {
-    //   new: true,
-    //   runValidators: true,
-    // });
-
-    if (!user) return res.status(404).send();
     res.send(user);
   } catch (e) {
     res.status(400).send(e.message);
   }
 });
-// delete user by id
-router.delete("/users/:id", async (req, res) => {
+
+// delete user
+router.delete("/users/me", auth, async (req, res) => {
   try {
-    const user = await User.findByIdAndDelete(req.params.id);
-    if (!user) return res.status(404).send({ error: "User not found" });
+    // const user = await User.findByIdAndDelete(req.user._id);
+    // if (!user) return res.status(404).send({ error: "User not found" });
+    const user = await req.user.remove();
     res.send({ message: `User deleted!`, user });
   } catch (e) {
     res.status(404).send(e.message);
