@@ -1,0 +1,19 @@
+form {
+  max-width: 300px;
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  margin-left: 5%;
+}
+input {
+  display: block;
+  height: 20px;
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+input[type="submit"] {
+  font-size: 1.2rem;
+  height: auto;
+  padding: 6px;
+}
