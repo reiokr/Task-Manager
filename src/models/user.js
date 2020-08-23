@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true, trim: true },
@@ -36,10 +37,27 @@ const userSchema = new mongoose.Schema({
         throw new Error("You can't use word 'password' in password");
     },
   },
+  tokens: [
+    {
+      token: { type: String, required: true },
+    },
+  ],
 });
 
+// generating user authentication token
+userSchema.methods.generateAuthToken = async function () {
+  const user = this;
+  const token = jwt.sign({ _id: user._id.toString() }, "thisismysecret", {
+    expiresIn: "24 hours",
+  });
+
+  user.tokens = user.tokens.concat({ token: token });
+  await user.save();
+  return token;
+};
+
 // custom validation function for find user and compare password
-userSchema.statics.findByCredentials = async (email,password) => {
+userSchema.statics.findByCredentials = async (email, password) => {
   const user = await User.findOne({ email: email });
   if (!user) throw new Error("Unable to login");
   const isMatch = await bcrypt.compare(password, user.password);
