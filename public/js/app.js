@@ -13,6 +13,8 @@ const logoutBtn = document.createElement("button");
 (logoutBtn.className = "logout-button"), (logoutBtn.textContent = "Log out");
 const isLogedIn = false;
 const token = sessionStorage.getItem("token") || "";
+const herokuURL = "https://reiokr-task-manager.herokuapp.com";
+const url = "http://localhost:5000";
 
 // things to do when windows loads
 window.addEventListener("load", function (e) {
@@ -51,7 +53,7 @@ function login(e) {
     password: passwordLogin.value,
   };
   http
-    .post("http://localhost:5000/users/login", data)
+    .post(`${herokuURL}/users/login`, data)
     .then((res) => {
       let usertoken = {
         headers: {
@@ -70,7 +72,7 @@ function login(e) {
 // get user data
 const userRequest = (token) => {
   http
-    .get("http://localhost:5000/users/me", token)
+    .get(`${herokuURL}/users/me`, token)
     .then((res) => showUser(res))
     .catch((err) => console.log(err));
 };
@@ -78,7 +80,7 @@ const userRequest = (token) => {
 // get tasks
 const taskRequest = (token) => {
   http
-    .get("http://localhost:5000/tasks", token)
+    .get(`${herokuURL}/tasks`, token)
     .then((res) => showTasks(res))
     .catch((err) => console.log(err));
 };
@@ -89,7 +91,7 @@ const showUser = (user) => {
   userHTML.className=('user')
   userHTML.innerHTML = `
   <h3>Hello ${user.name} </h3>
-  <img src="http://localhost:5000/users/${user._id.toString()}/avatar" alt="user avatar">
+  <img src="${herokuURL}/users/${user._id.toString()}/avatar" alt="user avatar">
   <h3>Welcome to your task manager!</h3>
   `;
   userContainer.appendChild(userHTML);
