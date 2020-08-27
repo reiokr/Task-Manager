@@ -19,7 +19,6 @@ const url = "http://localhost:5000";
 // things to do when windows loads
 window.addEventListener("load", function (e) {
   e.preventDefault();
-  
   if (token === ""){
     // registrationForm.classList.remove("hidden");
     loginForm.classList.remove("hidden");
