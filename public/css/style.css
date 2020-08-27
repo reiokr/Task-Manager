@@ -1,19 +1,92 @@
+body {
+  font-family: "montserrat", sans-serif;
+  background-image: url('../img/43494.jpg');
+  background-attachment: fixed;
+  background-repeat: none;
+  background-position: center;
+  background-size: cover;
+}
+h1,h2,h3{
+  font-weight: 600;
+  color: white;
+}
+h3{
+  text-shadow: 1px 1px 3px black,-1px -1px 3px grey;
+}
 form {
   max-width: 300px;
   width: auto;
   display: flex;
   flex-direction: column;
-  margin-left: 5%;
+  margin: 50px 0 0 50px;
 }
 input {
   display: block;
   height: 20px;
   margin-bottom: 10px;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
+  background: rgb(192, 192, 192);
+  border: none;
+  text-indent: 5px;
 }
 
 input[type="submit"] {
   font-size: 1.2rem;
   height: auto;
   padding: 6px;
+}
+.completed,
+.uncompleted {
+  background: lightgreen;
+  padding: 5px 10px;
+  margin: 0;
+  border-bottom: 2px solid white;
+  position: relative;
+}
+.uncompleted {
+  background: lightpink;
+}
+.uncompleted:after,
+.completed:after {
+  content: "[ ]";
+  position: absolute;
+  font-weight: bold;
+  right: 10px;
+  cursor: pointer;
+}
+.completed:after {
+  content: "[V]";
+}
+p {
+  font-size: 1.2rem;
+}
+.container {
+  position: relative;
+  margin: 0 auto;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+}
+
+.tasks {
+  margin: 0 auto;
+  width: 100%;
+}
+.hidden {
+  display: none;
+}
+.btn,.logout-button {
+  padding: 6px;
+  font-size: 1.1rem;
+  background: rgb(0, 54, 136);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.logout-button{
+  position: absolute;
+  top: 20px;
+  right: 0;
 }
