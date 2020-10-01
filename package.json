@@ -5,7 +5,11 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
-    "dev": "env-cmd -f ./config/dev.env nodemon src/index.js"
+    "dev": "env-cmd -f ./config/dev.env nodemon src/index.js",
+    "test": "env-cmd -f ./config/test.env jest --watch --runInBand --forceExit --detectOpenHandles"
+  },
+  "jest": {
+    "testEnviroment": "node"
   },
   "keywords": [],
   "author": "",
@@ -24,6 +28,8 @@
   "devDependencies": {
     "chalk": "^4.1.0",
     "env-cmd": "^10.1.0",
-    "nodemon": "^2.0.4"
+    "jest": "^26.4.2",
+    "nodemon": "^2.0.4",
+    "supertest": "^4.0.2"
   }
 }

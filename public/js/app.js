@@ -52,7 +52,7 @@ function login(e) {
     password: passwordLogin.value,
   };
   http
-    .post(`${herokuURL}/users/login`, data)
+    .post(`${url}/users/login`, data)
     .then((res) => {
       let usertoken = {
         headers: {
@@ -71,7 +71,7 @@ function login(e) {
 // get user data
 const userRequest = (token) => {
   http
-    .get(`${herokuURL}/users/me`, token)
+    .get(`${url}/users/me`, token)
     .then((res) => showUser(res))
     .catch((err) => console.log(err));
 };
@@ -79,7 +79,7 @@ const userRequest = (token) => {
 // get tasks
 const taskRequest = (token) => {
   http
-    .get(`${herokuURL}/tasks`, token)
+    .get(`${url}/tasks`, token)
     .then((res) => showTasks(res))
     .catch((err) => console.log(err));
 };
@@ -90,7 +90,7 @@ const showUser = (user) => {
   userHTML.className=('user')
   userHTML.innerHTML = `
   <h3>Hello ${user.name} </h3>
-  <img src="${herokuURL}/users/${user._id.toString()}/avatar" alt="user avatar">
+  <img src="${url}/users/${user._id.toString()}/avatar" alt="user avatar">
   <h3>Welcome to your task manager!</h3>
   `;
   userContainer.appendChild(userHTML);

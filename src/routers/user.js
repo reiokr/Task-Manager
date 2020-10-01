@@ -3,7 +3,7 @@ const multer = require("multer"); // help routing files
 const sharp = require("sharp"); //help modifying images
 const auth = require("../middleware/auth");
 const User = require("../models/user");
-const {sendWelcomeEmail, sendCancelationEmail} = require("../emails/account")
+const { sendWelcomeEmail, sendCancelationEmail } = require("../emails/account");
 
 const router = new express.Router();
 
@@ -123,7 +123,7 @@ router.delete("/users/me", auth, async (req, res) => {
     res.send({ message: `User deleted!`, user });
     sendCancelationEmail(user.email, user.name);
   } catch (e) {
-    res.status(404).send(e.message);
+    res.status(401).send(e.message);
   }
 });
 const upload = multer({
